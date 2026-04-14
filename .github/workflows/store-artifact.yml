@@ -1,0 +1,19 @@
+name: Store Artifact
+
+on:
+  push:
+    branches: ['**']
+
+jobs:
+  store:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Upload source code artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-code
+          path: .
+          retention-days: 90

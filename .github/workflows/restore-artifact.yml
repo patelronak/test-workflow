@@ -1,0 +1,22 @@
+name: Testing
+
+on:
+  workflow_run:
+    workflows: ["Store Artifact"]
+    types:
+      - completed
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Download latest artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: source-code
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: List downloaded files
+        run: ls -la
